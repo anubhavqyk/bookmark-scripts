@@ -1,8 +1,8 @@
 var json2csv = require('json2csv');
 var fs = require('fs');
 var _ = require('lodash');
-var FILENAME = '/home/loneranger/Documents/qyk/all_dec10_jan12.json';
-var DEST_FILENAME = '/home/loneranger/Documents/qyk/all_dec10_jan12.csv';
+var FILENAME = '/tmp/ronnie_latest.json';
+var DEST_FILENAME = '/home/loneranger/Documents/qyk/ronnie_jan_19.csv';
 var RESTRICTED_FIELDS=['comments', 'reminder'];
 fs.readFile(FILENAME, function(err, data){
   if(err) return console.log(err);

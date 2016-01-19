@@ -2,7 +2,27 @@ var ORL = null;
 (function() {
   // APIs
   function process(data) {
-  	console.log(doCSV(data));
+  	var processedData = data.map(function(record){
+  		var transformedObj = {};
+  		transformedObj['refId'] = record['refId'];
+			transformedObj['Start date'] = -1;
+			transformedObj['# quotations sent'] = -1;
+			transformedObj['Est. Project value'] = -1;
+			transformedObj['# Vendors who have met'] = -1;
+			transformedObj['# of vendors connected'] = -1;
+  		record.postAnswers.forEach(function(postAnswer){
+	  		if(postAnswer.questionFrameworkQuestions && postAnswer.questionFrameworkQuestions.question && postAnswer.questionFrameworkQuestions.question.id){
+	  			if(postAnswer.questionFrameworkQuestions.question.id == 'c62d4342-aae3-427b-8c5a-4c6cbe7f073b') transformedObj['Start date'] = postAnswer.answer;
+	  			if(postAnswer.questionFrameworkQuestions.question.id == '0e335f43-971e-4968-bbd8-303a4392268b') transformedObj['# quotations sent'] = postAnswer.answer;
+	  			if(postAnswer.questionFrameworkQuestions.question.id == '4769e419-7996-446a-b98b-6d320e37ce08') transformedObj['Est. Project value'] = postAnswer.answer;
+	  			if(postAnswer.questionFrameworkQuestions.question.id == '7a263759-f81b-4610-bb7a-1d66ae1ecd86') transformedObj['# Vendors who have met'] = postAnswer.answer;
+	  			if(postAnswer.questionFrameworkQuestions.question.id == '6c256096-a4e4-4e0f-ba40-a11fea6e0cb9') transformedObj['# of vendors connected'] = postAnswer.answer;
+	  		}
+  			
+  		})
+  		return transformedObj;
+  	})
+  	console.log(doCSV(processedData));
   }
 
   function getParam(name) {

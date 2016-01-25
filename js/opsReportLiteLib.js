@@ -43,6 +43,13 @@ var ORL = null;
 	  		transformedObj['answers'] += answer.question + " : " + answer.answer +"\r\n";
   		})
 		
+		
+		transformedObj['PostEnquiryAnswers']="";
+		record.postAnswers.forEach(function(postAnswer){
+				  	
+	  		transformedObj['PostEnquiryAnswers'] += postAnswer.questionFrameworkQuestions.question.name + " : " + postAnswer.answer +"\r\n";
+  		})
+		
 		transformedObj['# of vendors connected'] = 0;
 		transformedObj['# Vendors who have met'] = 0;
 		transformedObj['# quotations sent'] = 0;		

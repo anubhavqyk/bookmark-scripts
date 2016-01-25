@@ -1,11 +1,11 @@
 var BASE_API_URL = 'http://www.qykapp.com/ops/api/enquiry';
 var HEADERS = {
   'Authorization': 'Bearer ' + JSON.parse(window.localStorage['ngStorage-currentUser'])['access_token']
-}
+};
 
 function loadError(e) {
   console.log(e);
-}
+};
 
 function importScript(sSrc, fOnload) {
   var oScript = document.createElement("script");
@@ -13,7 +13,7 @@ function importScript(sSrc, fOnload) {
   oScript.onerror = loadError;
   if (fOnload) {
     oScript.onload = fOnload;
-  }
+  };
   document.body.appendChild(oScript);
   oScript.src = sSrc;
 };
@@ -21,7 +21,7 @@ function importScript(sSrc, fOnload) {
 function onScriptLoad() {
   LOAD_COUNTER++;
   if (LOAD_COUNTER == 2) init();
-}
+};
 
 function cleanParams(s) {
   var params = s.split('&');
@@ -33,7 +33,7 @@ function cleanParams(s) {
     }
   }
   return neoParams;
-}
+};
 
 function init() {
   var splits = window.location.hash.split('?');
@@ -48,7 +48,6 @@ function init() {
         headers: HEADERS
       }).done(function(data) {
         if (data && data.items) {
-          //Process
           ORL.process(data.items);
         }
       })
@@ -56,15 +55,15 @@ function init() {
       alert('Too many enquiries! Please chose an appropriate filter');
     }
   })
-}
+};
 var LOAD_COUNT = 0;
 var LOAD_COUNTER = 0;
 if (!$.csv) {
   importScript('http://54.169.177.130/lib/jquery.csv.js', onScriptLoad);
   LOAD_COUNT++;
-}
+};
 if (typeof ORL == 'undefined') {
   importScript('http://54.169.177.130/lib/opsReportLiteLib.js', onScriptLoad);
   LOAD_COUNT++;
-}
+};
 if (LOAD_COUNT == 0) init();

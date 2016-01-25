@@ -4,12 +4,16 @@ var ORL = null;
   function process(data) {
   	var processedData = data.map(function(record){
   		var transformedObj = {};
-  		transformedObj['refId'] = record['refId'];
-			transformedObj['Start date'] = -1;
-			transformedObj['# quotations sent'] = -1;
-			transformedObj['Est. Project value'] = -1;
-			transformedObj['# Vendors who have met'] = -1;
-			transformedObj['# of vendors connected'] = -1;
+  		transformedObj['refId'] = "http://www.qykapp.com/opsdash/#/?q="+record['refId'];
+  		transformedObj['createdAt'] = record['createdAt'];
+  		transformedObj['category'] = record['category']['slug'];
+			transformedObj['Start date'] = 0;
+			transformedObj['Est. Project value'] = 0;
+			transformedObj['opsStatus'] = record['opsStatus'];
+			transformedObj['opsTag'] = record['opsTag']['slug'];
+			transformedObj['# of vendors connected'] = 0;
+			transformedObj['# Vendors who have met'] = 0;
+			transformedObj['# quotations sent'] = 0;
   		record.postAnswers.forEach(function(postAnswer){
 	  		if(postAnswer.questionFrameworkQuestions && postAnswer.questionFrameworkQuestions.question && postAnswer.questionFrameworkQuestions.question.id){
 	  			if(postAnswer.questionFrameworkQuestions.question.id == 'c62d4342-aae3-427b-8c5a-4c6cbe7f073b') transformedObj['Start date'] = postAnswer.answer;

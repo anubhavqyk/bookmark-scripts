@@ -4,12 +4,13 @@ var ORL = null;
   // APIs
   function process(data) {
   	var processedData = data.map(function(record){
-  		var transformedObj = {};
-  		transformedObj['URL'] = "http://www.qykapp.com/opsdash/#/?q="+record['refId'];
+		var transformedObj = {};
+		transformedObj['URL'] = "http://www.papertostone.com/opsdash/#/?q="+record['refId'];
 		transformedObj['refId'] = record['refId'];
-  		transformedObj['createdAt'] = record['createdAt'];
+		transformedObj['createdAt'] = record['createdAt'];
 		transformedObj['source'] = record['source']['slug'];
-  		transformedObj['category'] = record['category']['slug'];
+    transformedObj['category'] = record['category']['slug'];
+		transformedObj['slug'] = record['meta']['slug'];
 		transformedObj['city'] = record['city'];
 		transformedObj['Start date'] = 0;
 		transformedObj['Est. Project value'] = 0;

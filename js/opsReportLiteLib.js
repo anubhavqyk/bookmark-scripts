@@ -1,5 +1,6 @@
 var ORL = null;
 (function() {
+  var DELIMITER = "\r\n";
   // APIs
   function process(data) {
   	var processedData = data.map(function(record){
@@ -23,13 +24,13 @@ var ORL = null;
 		transformedObj['Assigner']="";
 		transformedObj['Assignee']="";
 		record.assignment.forEach(function(assignment){	  	
-	  		transformedObj['Assigner'] += assignment.assigner.email+"\r\n";
-			transformedObj['Assignee'] += assignment.assignee.email+"\r\n";
+	  		transformedObj['Assigner'] += assignment.assigner.email+DELIMITER;
+			transformedObj['Assignee'] += assignment.assignee.email+DELIMITER;
   		})
 		
 		transformedObj['comments'] ="";
 		record.comments.forEach(function(comment){	  	
-	  		transformedObj['comments'] += comment.user.email + " at " + comment.createdAt + " : " + comment.message + "\r\n";
+	  		transformedObj['comments'] += comment.user.email + " at " + comment.createdAt + " : " + comment.message + DELIMITER;
   		})
 		
 		transformedObj['labels']="";
@@ -40,14 +41,14 @@ var ORL = null;
 		transformedObj['answers']="";
 		record.answers.forEach(function(answer){
 				  	
-	  		transformedObj['answers'] += answer.question + " : " + answer.answer +"\r\n";
+	  		transformedObj['answers'] += answer.question + " : " + answer.answer +DELIMITER;
   		})
 		
 		
 		transformedObj['PostEnquiryAnswers']="";
 		record.postAnswers.forEach(function(postAnswer){
 				  	
-	  		transformedObj['PostEnquiryAnswers'] += postAnswer.questionFrameworkQuestions.question.name + " : " + postAnswer.answer +"\r\n";
+	  		transformedObj['PostEnquiryAnswers'] += postAnswer.questionFrameworkQuestions.question.name + " : " + postAnswer.answer +DELIMITER;
   		})
 		
 		transformedObj['# of vendors connected'] = 0;

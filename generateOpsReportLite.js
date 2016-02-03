@@ -1,4 +1,4 @@
-var BASE_API_URL = 'http://www.qykapp.com/ops/api/enquiry';
+var BASE_API_URL = 'http://www.papertostone.com/ops/api/enquiry';
 var HEADERS = {
   'Authorization': 'Bearer ' + JSON.parse(window.localStorage['ngStorage-currentUser'])['access_token']
 };

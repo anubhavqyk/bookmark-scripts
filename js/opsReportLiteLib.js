@@ -3,71 +3,75 @@ var ORL = null;
   var DELIMITER = "\r\n";
   // APIs
   function process(data) {
-  	var processedData = data.map(function(record){
-		var transformedObj = {};
-		transformedObj['URL'] = "http://www.papertostone.com/opsdash/#/?q="+record['refId'];
-		transformedObj['refId'] = record['refId'];
-		transformedObj['createdAt'] = record['createdAt'];
-		transformedObj['source'] = record['source']['slug'];
+    var processedData = data.map(function(record){
+    var transformedObj = {};
+    transformedObj['URL'] = "http://www.papertostone.com/opsdash/#/?q="+record['refId'];
+    transformedObj['refId'] = record['refId'];
+    transformedObj['createdAt'] = record['createdAt'];
+    transformedObj['source'] = record['source']['slug'];
     transformedObj['category'] = record['category']['slug'];
-		transformedObj['slug'] = record['meta']['slug'];
-		transformedObj['city'] = record['city'];
-		transformedObj['Start date'] = 0;
-		transformedObj['Est. Project value'] = 0;
-		transformedObj['status'] = record['status'];
-		transformedObj['userName'] = record['user']['displayName'];
-		transformedObj['userEmail'] = record['user']['email'];
-		transformedObj['userPhone'] = record['user']['mobile'];
-		
-		transformedObj['opsStatus'] = record['opsStatus'];
-		transformedObj['opsTag'] = record['opsTag']['slug'];
-		
-		transformedObj['Assigner']="";
-		transformedObj['Assignee']="";
-		record.assignment.forEach(function(assignment){	  	
-	  		transformedObj['Assigner'] += assignment.assigner.email+DELIMITER;
-			transformedObj['Assignee'] += assignment.assignee.email+DELIMITER;
-  		})
-		
-		transformedObj['comments'] ="";
-		record.comments.forEach(function(comment){	  	
-	  		transformedObj['comments'] += comment.user.email + " at " + comment.createdAt + " : " + comment.message + DELIMITER;
-  		})
-		
-		transformedObj['labels']="";
-		record.opsLabels.forEach(function(label){	  	
-	  		transformedObj['labels'] += label.slug + " | ";
-  		})
-		
-		transformedObj['answers']="";
-		record.answers.forEach(function(answer){
-				  	
-	  		transformedObj['answers'] += answer.question + " : " + answer.answer +DELIMITER;
-  		})
-		
-		
-		transformedObj['PostEnquiryAnswers']="";
-		record.postAnswers.forEach(function(postAnswer){
-				  	
-	  		transformedObj['PostEnquiryAnswers'] += postAnswer.questionFrameworkQuestions.question.name + " : " + postAnswer.answer +DELIMITER;
-  		})
-		
-		transformedObj['# of vendors connected'] = 0;
-		transformedObj['# Vendors who have met'] = 0;
-		transformedObj['# quotations sent'] = 0;		
-  		record.postAnswers.forEach(function(postAnswer){
-	  	if(postAnswer.questionFrameworkQuestions && postAnswer.questionFrameworkQuestions.question && postAnswer.questionFrameworkQuestions.question.id){
-	  		if(postAnswer.questionFrameworkQuestions.question.id == 'c62d4342-aae3-427b-8c5a-4c6cbe7f073b') transformedObj['Start date'] = postAnswer.answer;
-	  		if(postAnswer.questionFrameworkQuestions.question.id == '0e335f43-971e-4968-bbd8-303a4392268b') transformedObj['# quotations sent'] = postAnswer.answer;
-	  		if(postAnswer.questionFrameworkQuestions.question.id == '4769e419-7996-446a-b98b-6d320e37ce08') transformedObj['Est. Project value'] = postAnswer.answer;
-	  		if(postAnswer.questionFrameworkQuestions.question.id == '7a263759-f81b-4610-bb7a-1d66ae1ecd86') transformedObj['# Vendors who have met'] = postAnswer.answer;
-	  		if(postAnswer.questionFrameworkQuestions.question.id == '6c256096-a4e4-4e0f-ba40-a11fea6e0cb9') transformedObj['# of vendors connected'] = postAnswer.answer;
-	  	}
-  			
-  		})
-  		return transformedObj;
-  	})
-  	console.log(doCSV(processedData));
+    transformedObj['slug'] = record['meta']['slug'];
+    transformedObj['city'] = record['city'];
+    transformedObj['Start date'] = 0;
+    transformedObj['Est. Project value'] = 0;
+    transformedObj['status'] = record['status'];
+    transformedObj['userName'] = record['user']['displayName'];
+    transformedObj['userEmail'] = record['user']['email'];
+    transformedObj['userPhone'] = record['user']['mobile'];
+    
+    transformedObj['opsStatus'] = record['opsStatus'];
+    transformedObj['opsTag'] = record['opsTag']['slug'];
+    
+    transformedObj['Assigner']="";
+    transformedObj['Assignee']="";
+    record.assignment.forEach(function(assignment){     
+        transformedObj['Assigner'] += assignment.assigner.email+DELIMITER;
+      transformedObj['Assignee'] += assignment.assignee.email+DELIMITER;
+      })
+    
+    transformedObj['comments'] ="";
+    record.comments.forEach(function(comment){      
+        transformedObj['comments'] += comment.user.email + " at " + comment.createdAt + " : " + comment.message + DELIMITER;
+      })
+    
+    transformedObj['labels']="";
+    record.opsLabels.forEach(function(label){     
+        transformedObj['labels'] += label.slug + " | ";
+      })
+    
+    transformedObj['answers']="";
+    record.answers.forEach(function(answer){
+      if(answer.question=='When do you want the work to start?'){
+        transformedObj['work-start-date']=answer.answer;
+      }
+      else{
+        transformedObj['answers'] += answer.question + " : " + answer.answer +DELIMITER;
+      }
+      })
+    
+    
+    transformedObj['PostEnquiryAnswers']="";
+    record.postAnswers.forEach(function(postAnswer){
+            
+        transformedObj['PostEnquiryAnswers'] += postAnswer.questionFrameworkQuestions.question.name + " : " + postAnswer.answer +DELIMITER;
+      })
+    
+    transformedObj['# of vendors connected'] = 0;
+    transformedObj['# Vendors who have met'] = 0;
+    transformedObj['# quotations sent'] = 0;    
+      record.postAnswers.forEach(function(postAnswer){
+      if(postAnswer.questionFrameworkQuestions && postAnswer.questionFrameworkQuestions.question && postAnswer.questionFrameworkQuestions.question.id){
+        if(postAnswer.questionFrameworkQuestions.question.id == 'c62d4342-aae3-427b-8c5a-4c6cbe7f073b') transformedObj['Start date'] = postAnswer.answer;
+        if(postAnswer.questionFrameworkQuestions.question.id == '0e335f43-971e-4968-bbd8-303a4392268b') transformedObj['# quotations sent'] = postAnswer.answer;
+        if(postAnswer.questionFrameworkQuestions.question.id == '4769e419-7996-446a-b98b-6d320e37ce08') transformedObj['Est. Project value'] = postAnswer.answer;
+        if(postAnswer.questionFrameworkQuestions.question.id == '7a263759-f81b-4610-bb7a-1d66ae1ecd86') transformedObj['# Vendors who have met'] = postAnswer.answer;
+        if(postAnswer.questionFrameworkQuestions.question.id == '6c256096-a4e4-4e0f-ba40-a11fea6e0cb9') transformedObj['# of vendors connected'] = postAnswer.answer;
+      }
+        
+      })
+      return transformedObj;
+    })
+    doCSV(processedData);
   }
 
   function getParam(name) {
@@ -138,7 +142,7 @@ var ORL = null;
     // thanks to http://jsfiddle.net/terryyounghk/KPEGU/
     // and http://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
     var uri = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
-	window.open(uri, '_blank');
+  window.open(uri, '_blank');
     return uri;
     // $(".csv a.download").attr("href", uri);
   }

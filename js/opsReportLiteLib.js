@@ -38,7 +38,9 @@ var ORL = null;
     record.opsLabels.forEach(function(label){     
         transformedObj['labels'] += label.slug + " | ";
       })
-    
+    transformedObj['superCat']="";
+    var matchedSuperCat = transformedObj['labels'].match(/super-[a-z]{1,}/);
+    if(matchedSuperCat) transformedObj['superCat'] = matchedSuperCat[0];
     transformedObj['answers']="";
     record.answers.forEach(function(answer){
       if(answer.question=='When do you want the work to start?'){

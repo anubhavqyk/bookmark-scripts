@@ -57,7 +57,8 @@ var ORL = null;
             
         transformedObj['PostEnquiryAnswers'] += postAnswer.questionFrameworkQuestions.question.name + " : " + postAnswer.answer +DELIMITER;
       })
-    
+    transformedObj['priority']="";
+    if(record['priority'] && record['priority']['slug']) transformedObj['priority']=record['priority']['slug'];
     transformedObj['# of vendors connected'] = 0;
     transformedObj['# Vendors who have met'] = 0;
     transformedObj['# quotations sent'] = 0;    

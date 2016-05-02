@@ -72,6 +72,7 @@ var ORL = null;
       }
         
       })
+    if(transformedObj['Est. Project value'] == 0) transformedObj['Est. Project value'] = record.value;
       return transformedObj;
     })
     doCSV(processedData);
